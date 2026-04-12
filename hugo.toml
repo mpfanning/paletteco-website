@@ -1,0 +1,9 @@
+baseURL = 'https://paletteco-website.pages.dev/'
+languageCode = 'en-au'
+title = 'Palette Co — Brows Lashes & Beauty'
+
+[params]
+  description = 'Palette Co — Luxurious lash extensions, brow shaping & beauty treatments in West End, Brisbane.'
+  author = 'Palette Co'
+  freshaURL = 'https://www.fresha.com/a/palette-co-west-end-west-village-97-boundary-street-ltwxvykn'
+  instagramURL = 'https://www.instagram.com/the.paletteco/'

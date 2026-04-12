@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ .Site.Title }}</title>
+  <meta name="description" content="{{ .Site.Params.description }}">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --cream: #FBF3E4;
+      --terracotta: #C25A3C;
+      --terracotta-dark: #A84832;
+      --teal: #3E7E7A;
+      --teal-dark: #2D5F5C;
+      --charcoal: #2B3038;
+      --gold: #D5A84E;
+      --rust: #8B3D2A;
+      --white: #FFFFFF;
+      --light-gray: #F5EDE0;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--charcoal);
+      background: var(--cream);
+      line-height: 1.7;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 600; line-height: 1.2; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; height: auto; }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===== Navigation ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(251, 243, 228, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(43, 48, 56, 0.08);
+      transition: box-shadow 0.3s;
+    }
+
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    }
+
+    .nav-logo {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--charcoal);
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--terracotta);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--terracotta); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--charcoal);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      background: linear-gradient(180deg, var(--cream) 0%, var(--light-gray) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(213, 168, 78, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-sunburst {
+      width: 120px;
+      height: 60px;
+      margin: 0 auto 32px;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .hero-sunburst .sun {
+      width: 40px;
+      height: 20px;
+      background: var(--gold);
+      border-radius: 40px 40px 0 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-sunburst .ray {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      width: 6px;
+      height: 32px;
+      border-radius: 3px;
+      transform-origin: bottom center;
+    }
+
+    .ray-1 { background: var(--charcoal); transform: translateX(-50%) rotate(-65deg); }
+    .ray-2 { background: var(--rust); transform: translateX(-50%) rotate(-48deg); }
+    .ray-3 { background: var(--terracotta); transform: translateX(-50%) rotate(-32deg); }
+    .ray-4 { background: var(--teal); transform: translateX(-50%) rotate(-16deg); }
+    .ray-5 { background: var(--gold); transform: translateX(-50%) rotate(0deg); }
+    .ray-6 { background: var(--charcoal); transform: translateX(-50%) rotate(16deg); }
+    .ray-7 { background: var(--terracotta); transform: translateX(-50%) rotate(32deg); }
+    .ray-8 { background: var(--rust); transform: translateX(-50%) rotate(48deg); }
+    .ray-9 { background: var(--gold); transform: translateX(-50%) rotate(65deg); }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      color: var(--charcoal);
+      margin-bottom: 8px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .hero-tagline {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: var(--teal);
+      margin-bottom: 16px;
+      font-weight: 400;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-heading);
+      font-style: italic;
+      font-size: 1.25rem;
+      color: var(--charcoal);
+      opacity: 0.7;
+      margin-bottom: 40px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 36px;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--terracotta);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: var(--terracotta-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(194, 90, 60, 0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--charcoal);
+      border: 2px solid var(--charcoal);
+    }
+
+    .btn-secondary:hover {
+      background: var(--charcoal);
+      color: var(--cream);
+      transform: translateY(-2px);
+    }
+
+    /* ===== Section Shared ===== */
+    .section {
+      padding: 100px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      margin-bottom: 12px;
+      color: var(--charcoal);
+    }
+
+    .section-divider {
+      width: 60px;
+      height: 3px;
+      background: var(--terracotta);
+      margin: 0 auto 20px;
+      border-radius: 2px;
+    }
+
+    .section-header p {
+      font-size: 1rem;
+      color: var(--charcoal);
+      opacity: 0.6;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* ===== About ===== */
+    .about {
+      background: var(--white);
+    }
+
+    .about-content {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .about-content p {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      margin-bottom: 24px;
+      color: var(--charcoal);
+      opacity: 0.85;
+    }
+
+    .about-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .about-accent {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .about-accent-item {
+      text-align: center;
+    }
+
+    .about-accent-item .number {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--terracotta);
+      display: block;
+    }
+
+    .about-accent-item .label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--charcoal);
+      opacity: 0.6;
+    }
+
+    /* ===== Services ===== */
+    .services {
+      background: var(--cream);
+    }
+
+    .services-categories {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    .category-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 36px 24px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .category-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(43, 48, 56, 0.08);
+    }
+
+    .category-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 1.5rem;
+    }
+
+    .category-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0;
+      font-weight: 600;
+    }
+
+    .packages-header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .packages-header h3 {
+      font-size: 1.6rem;
+      color: var(--charcoal);
+    }
+
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .package-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .package-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(43, 48, 56, 0.08);
+    }
+
+    .package-card .badge {
+      display: inline-block;
+      background: rgba(62, 126, 122, 0.12);
+      color: var(--teal);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .package-card h4 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+      color: var(--charcoal);
+    }
+
+    .package-card .duration {
+      font-size: 0.85rem;
+      color: var(--charcoal);
+      opacity: 0.5;
+      margin-bottom: 16px;
+    }
+
+    .package-card .price {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--terracotta);
+      margin-bottom: 20px;
+    }
+
+    .package-card .btn {
+      width: 100%;
+      justify-content: center;
+      padding: 12px 24px;
+      font-size: 0.75rem;
+    }
+
+    /* ===== Reviews ===== */
+    .reviews {
+      background: var(--white);
+    }
+
+    .reviews-stats {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .reviews-stars {
+      color: var(--gold);
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      letter-spacing: 4px;
+    }
+
+    .reviews-stats p {
+      font-size: 0.9rem;
+      color: var(--charcoal);
+      opacity: 0.6;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .review-card {
+      background: var(--cream);
+      border-radius: 16px;
+      padding: 32px;
+      position: relative;
+    }
+
+    .review-card .stars {
+      color: var(--gold);
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+      letter-spacing: 2px;
+    }
+
+    .review-card p {
+      font-style: italic;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 20px;
+      color: var(--charcoal);
+      opacity: 0.85;
+    }
+
+    .review-card .author {
+      font-weight: 700;
+      font-size: 0.85rem;
+      font-style: normal;
+      color: var(--charcoal);
+    }
+
+    .review-card .source {
+      font-size: 0.75rem;
+      color: var(--teal);
+      font-style: normal;
+    }
+
+    /* ===== Location ===== */
+    .location {
+      background: var(--cream);
+    }
+
+    .location-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .location-info h3 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: var(--charcoal);
+    }
+
+    .location-address {
+      margin-bottom: 28px;
+    }
+
+    .location-address p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      opacity: 0.85;
+    }
+
+    .location-extras {
+      display: flex;
+      gap: 24px;
+      margin-top: 12px;
+    }
+
+    .location-extras span {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    .hours-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 28px;
+    }
+
+    .hours-table tr {
+      border-bottom: 1px solid rgba(43, 48, 56, 0.06);
+    }
+
+    .hours-table td {
+      padding: 10px 0;
+      font-size: 0.9rem;
+    }
+
+    .hours-table td:first-child {
+      font-weight: 700;
+      width: 120px;
+    }
+
+    .hours-table .closed {
+      opacity: 0.4;
+    }
+
+    .map-container {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(43, 48, 56, 0.08);
+    }
+
+    .map-container iframe {
+      width: 100%;
+      height: 400px;
+      border: 0;
+    }
+
+    /* ===== Instagram ===== */
+    .instagram {
+      background: var(--white);
+      text-align: center;
+    }
+
+    .instagram-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.1rem;
+      color: var(--charcoal);
+      font-weight: 400;
+      margin-bottom: 32px;
+      transition: color 0.3s;
+    }
+
+    .instagram-link:hover {
+      color: var(--terracotta);
+    }
+
+    .instagram-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .instagram-card {
+      aspect-ratio: 1;
+      background: linear-gradient(135deg, var(--cream), var(--light-gray));
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      color: var(--charcoal);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      opacity: 0.7;
+    }
+
+    .instagram-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(43, 48, 56, 0.1);
+      opacity: 1;
+    }
+
+    .instagram-card svg {
+      width: 28px;
+      height: 28px;
+      margin-bottom: 8px;
+      opacity: 0.5;
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      background: var(--charcoal);
+      color: var(--cream);
+      padding: 48px 0;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .footer-brand {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .footer-links a {
+      color: var(--cream);
+      opacity: 0.7;
+      transition: opacity 0.3s;
+      font-size: 0.85rem;
+    }
+
+    .footer-links a:hover {
+      opacity: 1;
+    }
+
+    .footer-links a svg {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+    }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      opacity: 0.5;
+      width: 100%;
+      text-align: center;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(251, 243, 228, 0.1);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 900px) {
+      .services-categories {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .packages-grid {
+        grid-template-columns: 1fr;
+      }
+      .reviews-grid {
+        grid-template-columns: 1fr;
+      }
+      .location-grid {
+        grid-template-columns: 1fr;
+      }
+      .instagram-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 700px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: var(--cream);
+        flex-direction: column;
+        padding: 24px;
+        gap: 20px;
+        border-bottom: 1px solid rgba(43, 48, 56, 0.08);
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .hero { padding: 100px 24px 60px; min-height: auto; }
+      .hero h1 { font-size: 2.8rem; }
+      .section { padding: 64px 0; }
+
+      .services-categories {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .category-card { padding: 24px 16px; }
+
+      .about-accent { gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="container">
+      <a href="#" class="nav-logo">Palette Co</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="#about" onclick="document.querySelector('.nav-links').classList.remove('active')">About</a></li>
+        <li><a href="#services" onclick="document.querySelector('.nav-links').classList.remove('active')">Services</a></li>
+        <li><a href="#reviews" onclick="document.querySelector('.nav-links').classList.remove('active')">Reviews</a></li>
+        <li><a href="#location" onclick="document.querySelector('.nav-links').classList.remove('active')">Visit</a></li>
+        <li><a href="{{ .Site.Params.freshaURL }}" target="_blank" rel="noopener">Book Now</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-sunburst">
+        <div class="ray ray-1"></div>
+        <div class="ray ray-2"></div>
+        <div class="ray ray-3"></div>
+        <div class="ray ray-4"></div>
+        <div class="ray ray-5"></div>
+        <div class="ray ray-6"></div>
+        <div class="ray ray-7"></div>
+        <div class="ray ray-8"></div>
+        <div class="ray ray-9"></div>
+        <div class="sun"></div>
+      </div>
+      <h1>Palette Co</h1>
+      <p class="hero-tagline">Brows Lashes &amp; Beauty</p>
+      <p class="hero-subtitle">Where beauty meets artistry</p>
+      <div class="hero-buttons">
+        <a href="{{ .Site.Params.freshaURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book Now</a>
+        <a href="{{ .Site.Params.instagramURL }}" target="_blank" rel="noopener" class="btn btn-secondary">Follow Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section about" id="about">
+    <div class="container">
+      <div class="section-header">
+        <h2>About Us</h2>
+        <div class="section-divider"></div>
+        <p>Beauty is our passion, your confidence is our reward</p>
+      </div>
+      <div class="about-content">
+        <p>At Palette Co, we specialise in luxurious lash extensions that enhance your natural beauty and elevate your look. We pride ourselves on creating a welcoming and comfortable atmosphere where you can relax and let us work our magic. Whether you are preparing for a special occasion or simply want to enhance your everyday look, our goal is to make you feel pampered and cherished.</p>
+        <p>Join us at Palette Co, where every set of lashes is a work of art, and discover how we can help you express your unique beauty.</p>
+      </div>
+      <div class="about-accent">
+        <div class="about-accent-item">
+          <span class="number">5.0</span>
+          <span class="label">Star Rating</span>
+        </div>
+        <div class="about-accent-item">
+          <span class="number">61+</span>
+          <span class="label">Reviews</span>
+        </div>
+        <div class="about-accent-item">
+          <span class="number">West End</span>
+          <span class="label">Brisbane</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section services" id="services">
+    <div class="container">
+      <div class="section-header">
+        <h2>Our Services</h2>
+        <div class="section-divider"></div>
+        <p>Tailored treatments for your unique beauty</p>
+      </div>
+
+      <div class="services-categories">
+        <div class="category-card">
+          <div class="category-icon" style="background: rgba(194, 90, 60, 0.1);">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9-4-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z" fill="var(--terracotta)" opacity="0.6"/><circle cx="12" cy="12" r="3" fill="var(--terracotta)"/></svg>
+          </div>
+          <h3>Lash Extensions</h3>
+        </div>
+        <div class="category-card">
+          <div class="category-icon" style="background: rgba(62, 126, 122, 0.1);">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9-4-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z" fill="var(--teal)" opacity="0.6"/><circle cx="12" cy="12" r="3" fill="var(--teal)"/></svg>
+          </div>
+          <h3>Lash Lifts &amp; Tinting</h3>
+        </div>
+        <div class="category-card">
+          <div class="category-icon" style="background: rgba(213, 168, 78, 0.1);">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9-4-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z" fill="var(--gold)" opacity="0.6"/><circle cx="12" cy="12" r="3" fill="var(--gold)"/></svg>
+          </div>
+          <h3>Brow Shaping &amp; Tinting</h3>
+        </div>
+        <div class="category-card">
+          <div class="category-icon" style="background: rgba(139, 61, 42, 0.1);">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9-4-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z" fill="var(--rust)" opacity="0.6"/><circle cx="12" cy="12" r="3" fill="var(--rust)"/></svg>
+          </div>
+          <h3>Skin Treatments</h3>
+        </div>
+      </div>
+
+      <div class="packages-header">
+        <h3>Popular Packages</h3>
+      </div>
+
+      <div class="packages-grid">
+        <div class="package-card">
+          <span class="badge">Save 12%</span>
+          <h4>Lash Lift &amp; Brow Lamination Duo</h4>
+          <div class="duration">1hr 30min</div>
+          <div class="price">$175</div>
+          <a href="{{ .Site.Params.freshaURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book Now</a>
+        </div>
+        <div class="package-card">
+          <span class="badge">Save 10%</span>
+          <h4>Hybrid Eyelash Extensions &amp; Brow Luxury Combo</h4>
+          <div class="duration">2hr 50min</div>
+          <div class="price">$215</div>
+          <a href="{{ .Site.Params.freshaURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book Now</a>
+        </div>
+        <div class="package-card">
+          <span class="badge">Save 12%</span>
+          <h4>Hybrid Lash &amp; Glow Beauty Boost</h4>
+          <div class="duration">3hr 10min</div>
+          <div class="price">$300</div>
+          <a href="{{ .Site.Params.freshaURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book Now</a>
+        </div>
+        <div class="package-card">
+          <span class="badge">Save 16%</span>
+          <h4>Signature Facial and Brow Lamination</h4>
+          <div class="duration">2hr</div>
+          <div class="price">$320</div>
+          <a href="{{ .Site.Params.freshaURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="section reviews" id="reviews">
+    <div class="container">
+      <div class="section-header">
+        <h2>What Our Clients Say</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="reviews-stats">
+        <div class="reviews-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>5.0 stars from 61 reviews on Fresha</p>
+      </div>
+
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>"Joyce is a wonderful, patient person to deal with and very welcoming! Had an amazing facial."</p>
+          <span class="author">Sharon H</span><br>
+          <span class="source">via Fresha</span>
+        </div>
+        <div class="review-card">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>"Had a lovely experience with Joy! Great facial and brow services"</p>
+          <span class="author">Aprille R</span><br>
+          <span class="source">via Fresha</span>
+        </div>
+        <div class="review-card">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>"It is always amazing. Thank you"</p>
+          <span class="author">Tarunika D</span><br>
+          <span class="source">via Fresha</span>
+        </div>
+        <div class="review-card">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>"Lovely precise work. Very patient. Peaceful salon."</p>
+          <span class="author">Ellen M</span><br>
+          <span class="source">via Fresha</span>
+        </div>
+        <div class="review-card">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>"Amazing. The best lashes in Brisbane&hellip; relaxing surroundings and excellent service."</p>
+          <span class="author">Rachel Y</span><br>
+          <span class="source">via Fresha</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Instagram -->
+  <section class="section instagram" id="instagram">
+    <div class="container">
+      <div class="section-header">
+        <h2>Follow Along</h2>
+        <div class="section-divider"></div>
+      </div>
+      <a href="{{ .Site.Params.instagramURL }}" target="_blank" rel="noopener" class="instagram-link">
+        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        @the.paletteco
+      </a>
+      <div class="instagram-grid">
+        <a href="{{ .Site.Params.instagramURL }}" target="_blank" rel="noopener" class="instagram-card">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          Lashes
+        </a>
+        <a href="{{ .Site.Params.instagramURL }}" target="_blank" rel="noopener" class="instagram-card">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          Brows
+        </a>
+        <a href="{{ .Site.Params.instagramURL }}" target="_blank" rel="noopener" class="instagram-card">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          Beauty
+        </a>
+        <a href="{{ .Site.Params.instagramURL }}" target="_blank" rel="noopener" class="instagram-card">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          Skin
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Location & Hours -->
+  <section class="section location" id="location">
+    <div class="container">
+      <div class="section-header">
+        <h2>Visit Us</h2>
+        <div class="section-divider"></div>
+        <p>We'd love to welcome you to our studio</p>
+      </div>
+      <div class="location-grid">
+        <div class="location-info">
+          <h3>Location &amp; Hours</h3>
+          <div class="location-address">
+            <p>West Village<br>97 Boundary Street, Factory 2<br>West End QLD 4101</p>
+            <div class="location-extras">
+              <span>Parking Available</span>
+              <span>Near Public Transport</span>
+            </div>
+          </div>
+          <table class="hours-table">
+            <tr class="closed"><td>Monday</td><td>Closed</td></tr>
+            <tr><td>Tuesday</td><td>10:00 AM &ndash; 7:00 PM</td></tr>
+            <tr><td>Wednesday</td><td>10:00 AM &ndash; 7:00 PM</td></tr>
+            <tr><td>Thursday</td><td>10:00 AM &ndash; 7:00 PM</td></tr>
+            <tr><td>Friday</td><td>10:00 AM &ndash; 7:00 PM</td></tr>
+            <tr><td>Saturday</td><td>9:00 AM &ndash; 3:00 PM</td></tr>
+            <tr class="closed"><td>Sunday</td><td>Closed</td></tr>
+          </table>
+          <a href="{{ .Site.Params.freshaURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book an Appointment</a>
+        </div>
+        <div class="map-container">
+          <iframe
+            src="https://maps.google.com/maps?q=West+Village+97+Boundary+Street+West+End+QLD+4101&t=&z=16&ie=UTF8&iwloc=&output=embed"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Palette Co location at West Village, West End">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <span class="footer-brand">Palette Co</span>
+        <div class="footer-links">
+          <a href="{{ .Site.Params.instagramURL }}" target="_blank" rel="noopener" aria-label="Follow us on Instagram">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+          <a href="{{ .Site.Params.freshaURL }}" target="_blank" rel="noopener">Book on Fresha</a>
+        </div>
+        <p class="footer-copy">&copy; 2026 Palette Co. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
