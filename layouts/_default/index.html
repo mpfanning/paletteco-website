@@ -13,6 +13,18 @@
     /* ===== Reset & Base ===== */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     :root {
       --cream: #FBF3E4;
       --terracotta: #C25A3C;
@@ -151,44 +163,12 @@
       pointer-events: none;
     }
 
-    .hero-sunburst {
-      width: 120px;
-      height: 60px;
-      margin: 0 auto 32px;
-      position: relative;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
+    .hero-logo {
+      display: block;
+      width: clamp(220px, 32vw, 340px);
+      height: auto;
+      margin: 0 auto 24px;
     }
-
-    .hero-sunburst .sun {
-      width: 40px;
-      height: 20px;
-      background: var(--gold);
-      border-radius: 40px 40px 0 0;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-sunburst .ray {
-      position: absolute;
-      bottom: 16px;
-      left: 50%;
-      width: 6px;
-      height: 32px;
-      border-radius: 3px;
-      transform-origin: bottom center;
-    }
-
-    .ray-1 { background: var(--charcoal); transform: translateX(-50%) rotate(-65deg); }
-    .ray-2 { background: var(--rust); transform: translateX(-50%) rotate(-48deg); }
-    .ray-3 { background: var(--terracotta); transform: translateX(-50%) rotate(-32deg); }
-    .ray-4 { background: var(--teal); transform: translateX(-50%) rotate(-16deg); }
-    .ray-5 { background: var(--gold); transform: translateX(-50%) rotate(0deg); }
-    .ray-6 { background: var(--charcoal); transform: translateX(-50%) rotate(16deg); }
-    .ray-7 { background: var(--terracotta); transform: translateX(-50%) rotate(32deg); }
-    .ray-8 { background: var(--rust); transform: translateX(-50%) rotate(48deg); }
-    .ray-9 { background: var(--gold); transform: translateX(-50%) rotate(65deg); }
 
     .hero h1 {
       font-size: clamp(3rem, 8vw, 5.5rem);
@@ -791,19 +771,8 @@
   <!-- Hero -->
   <section class="hero" id="hero">
     <div class="container">
-      <div class="hero-sunburst">
-        <div class="ray ray-1"></div>
-        <div class="ray ray-2"></div>
-        <div class="ray ray-3"></div>
-        <div class="ray ray-4"></div>
-        <div class="ray ray-5"></div>
-        <div class="ray ray-6"></div>
-        <div class="ray ray-7"></div>
-        <div class="ray ray-8"></div>
-        <div class="ray ray-9"></div>
-        <div class="sun"></div>
-      </div>
-      <h1>Palette Co</h1>
+      <img class="hero-logo" src="/img/palette-co-logo.svg" alt="Palette Co — Brows Lashes & Beauty">
+      <h1 class="visually-hidden">Palette Co</h1>
       <p class="hero-tagline">Brows Lashes &amp; Beauty</p>
       <p class="hero-subtitle">Where beauty meets artistry</p>
       <div class="hero-buttons">
