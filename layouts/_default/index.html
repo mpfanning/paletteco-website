@@ -525,6 +525,22 @@
       margin-bottom: 28px;
     }
 
+    .location-email {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      opacity: 0.85;
+      margin-top: 4px;
+    }
+
+    .location-email a {
+      color: var(--teal);
+      transition: color 0.3s;
+    }
+
+    .location-email a:hover {
+      color: var(--teal-dark);
+    }
+
     .location-address p {
       font-size: 0.95rem;
       line-height: 1.8;
@@ -763,7 +779,7 @@
         <li><a href="#services" onclick="document.querySelector('.nav-links').classList.remove('active')">Services</a></li>
         <li><a href="#reviews" onclick="document.querySelector('.nav-links').classList.remove('active')">Reviews</a></li>
         <li><a href="#location" onclick="document.querySelector('.nav-links').classList.remove('active')">Visit</a></li>
-        <li><a href="{{ .Site.Params.freshaURL }}" target="_blank" rel="noopener">Book Now</a></li>
+        <li><a href="{{ .Site.Params.bookingURL }}" target="_blank" rel="noopener">Book Now</a></li>
       </ul>
     </div>
   </nav>
@@ -776,7 +792,7 @@
       <p class="hero-tagline">Brows Lashes &amp; Beauty</p>
       <p class="hero-subtitle">Where beauty meets artistry</p>
       <div class="hero-buttons">
-        <a href="{{ .Site.Params.freshaURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book Now</a>
+        <a href="{{ .Site.Params.bookingURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book Now</a>
         <a href="{{ .Site.Params.instagramURL }}" target="_blank" rel="noopener" class="btn btn-secondary">Follow Us</a>
       </div>
     </div>
@@ -857,28 +873,28 @@
           <h4>Lash Lift &amp; Brow Lamination Duo</h4>
           <div class="duration">1hr 30min</div>
           <div class="price">$175</div>
-          <a href="{{ .Site.Params.freshaURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book Now</a>
+          <a href="{{ .Site.Params.bookingURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book Now</a>
         </div>
         <div class="package-card">
           <span class="badge">Save 10%</span>
           <h4>Hybrid Eyelash Extensions &amp; Brow Luxury Combo</h4>
           <div class="duration">2hr 50min</div>
           <div class="price">$215</div>
-          <a href="{{ .Site.Params.freshaURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book Now</a>
+          <a href="{{ .Site.Params.bookingURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book Now</a>
         </div>
         <div class="package-card">
           <span class="badge">Save 12%</span>
           <h4>Hybrid Lash &amp; Glow Beauty Boost</h4>
           <div class="duration">3hr 10min</div>
           <div class="price">$300</div>
-          <a href="{{ .Site.Params.freshaURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book Now</a>
+          <a href="{{ .Site.Params.bookingURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book Now</a>
         </div>
         <div class="package-card">
           <span class="badge">Save 16%</span>
           <h4>Signature Facial and Brow Lamination</h4>
           <div class="duration">2hr</div>
           <div class="price">$320</div>
-          <a href="{{ .Site.Params.freshaURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book Now</a>
+          <a href="{{ .Site.Params.bookingURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book Now</a>
         </div>
       </div>
     </div>
@@ -977,6 +993,7 @@
           <h3>Location &amp; Hours</h3>
           <div class="location-address">
             <p>Salon Lane Factory<br>West Village, 97 Boundary Street<br>West End QLD 4101</p>
+            <p class="location-email"><a href="mailto:{{ .Site.Params.contactEmail }}">{{ .Site.Params.contactEmail }}</a></p>
             <div class="location-extras">
               <span>Parking Available</span>
               <span>Near Public Transport</span>
@@ -991,7 +1008,7 @@
             <tr><td>Saturday</td><td>9:00 AM &ndash; 3:00 PM</td></tr>
             <tr class="closed"><td>Sunday</td><td>Closed</td></tr>
           </table>
-          <a href="{{ .Site.Params.freshaURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book an Appointment</a>
+          <a href="{{ .Site.Params.bookingURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book an Appointment</a>
         </div>
         <div class="map-container">
           <iframe
@@ -1015,7 +1032,7 @@
           <a href="{{ .Site.Params.instagramURL }}" target="_blank" rel="noopener" aria-label="Follow us on Instagram">
             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
           </a>
-          <a href="{{ .Site.Params.freshaURL }}" target="_blank" rel="noopener">Book on Fresha</a>
+          <a href="{{ .Site.Params.bookingURL }}" target="_blank" rel="noopener">Book online</a>
         </div>
         <p class="footer-copy">&copy; 2026 Palette Co. All rights reserved.</p>
       </div>

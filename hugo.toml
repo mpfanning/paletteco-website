@@ -5,6 +5,7 @@ title = 'Palette Co — Brows Lashes & Beauty'
 [params]
   description = 'Palette Co — Luxurious lash extensions, brow shaping & beauty treatments in West End, Brisbane.'
   author = 'Palette Co'
-  freshaURL = 'https://www.fresha.com/a/palette-co-west-end-west-village-97-boundary-street-ltwxvykn'
+  bookingURL = 'https://book.paletteco.com.au'
+  contactEmail = 'admin@paletteco.com.au'
   instagramURL = 'https://www.instagram.com/itsthe.paletteco/'
   instagramHandle = '@itsthe.paletteco'
