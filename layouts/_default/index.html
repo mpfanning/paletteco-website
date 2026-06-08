@@ -25,6 +25,49 @@
       border: 0;
     }
 
+    /* ===== Move Announcement Banner ===== */
+    .move-banner {
+      background: var(--terracotta);
+      color: var(--white);
+      padding: 12px 24px;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 400;
+      line-height: 1.5;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 110;
+    }
+
+    .move-banner strong {
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .move-banner-pin {
+      display: inline-block;
+      margin-right: 8px;
+    }
+
+    /* Nudge fixed nav down to sit under the banner */
+    body.has-move-banner nav {
+      top: var(--move-banner-height, 48px);
+    }
+
+    body.has-move-banner {
+      padding-top: var(--move-banner-height, 48px);
+    }
+
+    @media (max-width: 700px) {
+      .move-banner {
+        font-size: 0.8rem;
+        padding: 10px 16px;
+        line-height: 1.4;
+      }
+    }
+
     :root {
       --cream: #FBF3E4;
       --terracotta: #C25A3C;
@@ -561,6 +604,81 @@
       font-weight: 700;
     }
 
+    .location-card {
+      border: 1px solid rgba(43, 48, 56, 0.08);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      background: var(--white);
+    }
+
+    .location-card.is-new {
+      border: 2px solid var(--terracotta);
+      background: linear-gradient(180deg, rgba(194, 90, 60, 0.04), rgba(194, 90, 60, 0.01));
+    }
+
+    .location-card .badge-when {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .location-card.is-current .badge-when {
+      background: rgba(62, 126, 122, 0.12);
+      color: var(--teal);
+    }
+
+    .location-card.is-new .badge-when {
+      background: var(--terracotta);
+      color: var(--white);
+    }
+
+    .location-card h4 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: var(--charcoal);
+    }
+
+    .location-card p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      opacity: 0.85;
+    }
+
+    .location-card .perk {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .maps-stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .map-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--charcoal);
+      opacity: 0.6;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .maps-stack .map-container iframe {
+      height: 300px;
+    }
+
     .hours-table {
       width: 100%;
       border-collapse: collapse;
@@ -765,7 +883,12 @@
     }
   </style>
 </head>
-<body>
+<body class="has-move-banner">
+
+  <!-- Move Announcement Banner -->
+  <div class="move-banner" role="status" id="moveBanner">
+    <span class="move-banner-pin" aria-hidden="true">⚑</span><strong>We're moving!</strong> From 2 July 2026, find us at 2 Baroona Road, Milton QLD 4064 — 2 hours free parking <a href="#location" style="color: var(--white); text-decoration: underline; margin-left: 6px;">See details</a>
+  </div>
 
   <!-- Navigation -->
   <nav>
@@ -991,14 +1114,26 @@
       <div class="location-grid">
         <div class="location-info">
           <h3>Location &amp; Hours</h3>
-          <div class="location-address">
-            <p>Salon Lane Factory<br>West Village, 97 Boundary Street<br>West End QLD 4101</p>
-            <p class="location-email"><a href="mailto:{{ .Site.Params.contactEmail }}">{{ .Site.Params.contactEmail }}</a></p>
+
+          <div class="location-card is-current">
+            <span class="badge-when">Until 1 July 2026</span>
+            <h4>Salon Lane Factory, West End</h4>
+            <p>West Village, 97 Boundary Street<br>West End QLD 4101</p>
             <div class="location-extras">
               <span>Parking Available</span>
               <span>Near Public Transport</span>
             </div>
           </div>
+
+          <div class="location-card is-new">
+            <span class="badge-when">From 2 July 2026</span>
+            <h4>Milton</h4>
+            <p>2 Baroona Road<br>Milton QLD 4064</p>
+            <span class="perk">2 hours free parking</span>
+          </div>
+
+          <p class="location-email" style="margin-bottom: 24px;"><a href="mailto:{{ .Site.Params.contactEmail }}">{{ .Site.Params.contactEmail }}</a></p>
+
           <table class="hours-table">
             <tr class="closed"><td>Monday</td><td>Closed</td></tr>
             <tr><td>Tuesday</td><td>10:00 AM &ndash; 7:00 PM</td></tr>
@@ -1010,14 +1145,32 @@
           </table>
           <a href="{{ .Site.Params.bookingURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book an Appointment</a>
         </div>
-        <div class="map-container">
-          <iframe
-            src="https://maps.google.com/maps?q=West+Village+97+Boundary+Street+West+End+QLD+4101&t=&z=16&ie=UTF8&iwloc=&output=embed"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            title="Palette Co location at West Village, West End">
-          </iframe>
+
+        <div class="maps-stack">
+          <div>
+            <div class="map-label">Until 1 July 2026 — West End</div>
+            <div class="map-container">
+              <iframe
+                src="https://maps.google.com/maps?q=West+Village+97+Boundary+Street+West+End+QLD+4101&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Palette Co — current location at West Village, West End">
+              </iframe>
+            </div>
+          </div>
+          <div>
+            <div class="map-label">From 2 July 2026 — Milton</div>
+            <div class="map-container">
+              <iframe
+                src="https://maps.google.com/maps?q=2+Baroona+Road+Milton+QLD+4064&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Palette Co — new location at 2 Baroona Road, Milton">
+              </iframe>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1038,6 +1191,19 @@
       </div>
     </div>
   </footer>
+
+<script>
+    (function () {
+      var banner = document.getElementById('moveBanner');
+      function setHeight() {
+        if (!banner) return;
+        var h = banner.offsetHeight;
+        document.documentElement.style.setProperty('--move-banner-height', h + 'px');
+      }
+      setHeight();
+      window.addEventListener('resize', setHeight);
+    })();
+  </script>
 
 </body>
 </html>
