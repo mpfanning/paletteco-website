@@ -204,6 +204,34 @@
       height: 600px;
       background: radial-gradient(circle, rgba(213, 168, 78, 0.12) 0%, transparent 70%);
       pointer-events: none;
+      z-index: 2;
+    }
+
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(251, 243, 228, 0.92) 0%, rgba(251, 243, 228, 0.84) 50%, rgba(245, 237, 224, 0.94) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 3;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-video { display: none; }
     }
 
     .hero-logo {
@@ -900,6 +928,9 @@
 
   <!-- Hero -->
   <section class="hero" id="hero">
+    <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="/img/lashes-hero-poster.jpg" aria-hidden="true" tabindex="-1">
+      <source src="/video/lashes-hero.mp4" type="video/mp4">
+    </video>
     <div class="container">
       <img class="hero-logo" src="/img/palette-co-logo.svg" alt="Palette Co — Brows Lashes & Beauty">
       <h1 class="visually-hidden">Palette Co</h1>
