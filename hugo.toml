@@ -1,9 +1,9 @@
 baseURL = 'https://paletteco.com.au/'
 languageCode = 'en-au'
-title = 'Palette Co — Brows Lashes & Beauty'
+title = 'Palette Co — Brows, Lashes & Beauty | Milton, Brisbane'
 
 [params]
-  description = 'Palette Co — Luxurious lash extensions, brow shaping & beauty treatments in Milton, Brisbane.'
+  description = 'Luxurious lash extensions, lash lifts, brow lamination & facials in Milton, Brisbane. 5.0-star rated salon — book online with Palette Co.'
   author = 'Palette Co'
   bookingURL = 'https://book.paletteco.com.au'
   contactEmail = 'admin@paletteco.com.au'
