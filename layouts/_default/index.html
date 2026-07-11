@@ -204,34 +204,6 @@
       height: 600px;
       background: radial-gradient(circle, rgba(213, 168, 78, 0.12) 0%, transparent 70%);
       pointer-events: none;
-      z-index: 2;
-    }
-
-    .hero-video {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 0;
-    }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(251, 243, 228, 0.92) 0%, rgba(251, 243, 228, 0.84) 50%, rgba(245, 237, 224, 0.94) 100%);
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    .hero .container {
-      position: relative;
-      z-index: 3;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .hero-video { display: none; }
     }
 
     .hero-logo {
@@ -339,6 +311,35 @@
     /* ===== About ===== */
     .about {
       background: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .about::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.88) 50%, rgba(255, 255, 255, 0.95) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .about .container {
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .about-video { display: none; }
     }
 
     .about-content {
@@ -928,9 +929,6 @@
 
   <!-- Hero -->
   <section class="hero" id="hero">
-    <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="/img/lashes-hero-poster.jpg" aria-hidden="true" tabindex="-1">
-      <source src="/video/lashes-hero.mp4" type="video/mp4">
-    </video>
     <div class="container">
       <img class="hero-logo" src="/img/palette-co-logo.svg" alt="Palette Co — Brows Lashes & Beauty">
       <h1 class="visually-hidden">Palette Co</h1>
@@ -944,6 +942,9 @@
 
   <!-- About -->
   <section class="section about" id="about">
+    <video class="about-video" id="aboutVideo" autoplay muted loop playsinline preload="auto" poster="/img/lashes-hero-poster.jpg" aria-hidden="true" tabindex="-1">
+      <source src="/video/lashes-hero.mp4" type="video/mp4">
+    </video>
     <div class="container">
       <div class="section-header">
         <h2>About Us</h2>
@@ -1203,6 +1204,32 @@
       }
       setHeight();
       window.addEventListener('resize', setHeight);
+    })();
+
+    (function () {
+      var v = document.getElementById('aboutVideo');
+      if (!v) return;
+      // Mobile browsers often ignore the autoplay attribute unless muted is
+      // set programmatically and play() is called from script.
+      v.muted = true;
+      v.setAttribute('muted', '');
+      function tryPlay() {
+        if (v.paused) {
+          var p = v.play();
+          if (p && p.catch) p.catch(function () {});
+        }
+      }
+      tryPlay();
+      window.addEventListener('pageshow', tryPlay);
+      document.addEventListener('visibilitychange', function () {
+        if (!document.hidden) tryPlay();
+      });
+      // Last resort: first touch/tap anywhere kicks the video off
+      // (covers iOS Low Power Mode, which blocks all autoplay).
+      document.addEventListener('touchstart', function once() {
+        tryPlay();
+        document.removeEventListener('touchstart', once);
+      }, { passive: true });
     })();
   </script>
 
