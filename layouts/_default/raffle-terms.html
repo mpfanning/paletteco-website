@@ -1,0 +1,269 @@
+{{/* Terms page for the raffle.
+
+     All values come from content/raffle.md so there is ONE source of truth —
+     change a date or the prize there and it updates on both pages. If that
+     page is ever renamed, $r falls back to this page and the `default`
+     values below take over rather than the build failing. */}}
+{{ $r := .Site.GetPage "/raffle" }}
+{{ if not $r }}{{ $r = . }}{{ end }}
+
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ .Title }}</title>
+  <meta name="description" content="{{ .Params.description }}">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#FBF3E4">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Palette Co">
+  <meta property="og:title" content="{{ .Title }}">
+  <meta property="og:locale" content="en_AU">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    [hidden] { display: none !important; }
+
+    :root {
+      --cream:#FBF3E4; --terracotta:#C25A3C; --terracotta-dark:#A84832;
+      --teal:#3E7E7A; --teal-dark:#2D5F5C; --charcoal:#2B3038;
+      --gold:#D5A84E; --rust:#8B3D2A; --white:#FFFFFF; --light-gray:#F5EDE0;
+      --font-heading:'Playfair Display', Georgia, serif;
+      --font-body:'Lato','Helvetica Neue',Arial,sans-serif;
+    }
+
+    html { scroll-behavior:smooth; }
+    body {
+      font-family:var(--font-body); color:var(--charcoal); background:var(--white);
+      line-height:1.7; font-weight:300; -webkit-font-smoothing:antialiased;
+    }
+    h1,h2,h3,h4 { font-family:var(--font-heading); font-weight:600; line-height:1.2; }
+    a { color:inherit; text-decoration:none; }
+
+    .container { max-width:780px; margin:0 auto; padding:0 24px; }
+
+    nav {
+      position:sticky; top:0; z-index:100; background:rgba(251,243,228,.95);
+      backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(43,48,56,.08);
+    }
+    nav .container { max-width:1100px; display:flex; align-items:center; justify-content:space-between; height:70px; gap:16px; }
+    .nav-logo { font-family:var(--font-heading); font-size:1.5rem; font-weight:700; letter-spacing:.5px; display:inline-flex; align-items:center; gap:10px; }
+    .nav-logo img { height:34px; width:auto; display:block; }
+    .brand-text { display:flex; flex-direction:column; line-height:1.15; }
+    .brand-tagline { font-family:var(--font-body); font-size:.55rem; font-weight:400; letter-spacing:2.5px; text-transform:uppercase; color:var(--teal); margin-top:2px; }
+    .nav-actions { display:flex; gap:22px; align-items:center; }
+    .nav-actions a { font-size:.8rem; text-transform:uppercase; letter-spacing:1.5px; transition:color .3s; }
+    .nav-actions a:hover { color:var(--terracotta); }
+
+    .head { background:var(--cream); padding:56px 0 48px; }
+    .head .eyebrow { font-size:.72rem; text-transform:uppercase; letter-spacing:3px; color:var(--teal); font-weight:700; margin-bottom:14px; }
+    .head h1 { font-size:clamp(1.9rem,4.2vw,2.7rem); margin-bottom:10px; }
+    .head p { font-size:.9rem; opacity:.6; }
+
+    .terms { padding:56px 0 80px; }
+    .terms ol { counter-reset:t; list-style:none; }
+    .terms > .container > ol > li { counter-increment:t; position:relative; padding-left:44px; margin-bottom:26px; }
+    .terms > .container > ol > li::before {
+      content:counter(t); position:absolute; left:0; top:1px;
+      font-family:var(--font-heading); font-weight:700; color:var(--terracotta);
+      font-size:1.05rem; width:30px; text-align:right;
+    }
+    .terms h3 { font-size:1.05rem; margin-bottom:7px; }
+    .terms p { font-size:.94rem; opacity:.85; }
+    .terms ul { list-style:none; margin-top:8px; }
+    .terms ul li { padding-left:16px; position:relative; margin-bottom:5px; font-size:.94rem; opacity:.85; }
+    .terms ul li::before { content:'—'; position:absolute; left:0; opacity:.4; }
+    .terms a { color:var(--teal); text-decoration:underline; text-underline-offset:2px; }
+    .terms .fine { margin-top:34px; padding-top:24px; border-top:1px solid rgba(43,48,56,.1); font-size:.84rem; opacity:.6; }
+
+    .back {
+      display:inline-flex; align-items:center; gap:8px; margin-top:38px;
+      padding:13px 30px; border:2px solid var(--charcoal); border-radius:50px;
+      font-size:.8rem; font-weight:700; text-transform:uppercase; letter-spacing:2px;
+      transition:all .3s;
+    }
+    .back:hover { background:var(--charcoal); color:var(--cream); }
+
+    footer { background:var(--charcoal); color:var(--cream); padding:44px 0; }
+    footer .container { max-width:1100px; }
+    .footer-content { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
+    .footer-brand { font-family:var(--font-heading); font-size:1.3rem; font-weight:700; display:inline-flex; align-items:center; gap:10px; }
+    .footer-brand img { height:30px; width:auto; }
+    footer .brand-tagline { color:var(--cream); opacity:.65; }
+    .footer-links { display:flex; gap:22px; flex-wrap:wrap; }
+    .footer-links a { opacity:.7; font-size:.85rem; transition:opacity .3s; }
+    .footer-links a:hover { opacity:1; }
+    .footer-copy { font-size:.78rem; opacity:.5; width:100%; text-align:center; margin-top:20px; padding-top:20px; border-top:1px solid rgba(251,243,228,.1); }
+
+    @media (max-width:640px) {
+      .nav-logo { font-size:1.15rem; }
+      .nav-actions { gap:14px; }
+      .nav-actions a { font-size:.68rem; letter-spacing:1px; }
+    }
+    @media (prefers-reduced-motion:reduce) { * { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <a href="/" class="nav-logo">
+      <img src="/img/palette-co-mark.svg" alt="" aria-hidden="true">
+      <span class="brand-text">Palette Co<span class="brand-tagline">Brows Lashes &amp; Beauty</span></span>
+    </a>
+    <div class="nav-actions">
+      <a href="/">Home</a>
+      <a href="{{ $r.RelPermalink }}">The giveaway</a>
+      <a href="{{ .Site.Params.bookingURL }}" target="_blank" rel="noopener">Book</a>
+    </div>
+  </div>
+</nav>
+
+<section class="head">
+  <div class="container">
+    <p class="eyebrow">{{ $r.Params.promoterName | default "Palette Co" }} Giveaway</p>
+    <h1>Terms &amp; Conditions</h1>
+    <p>{{ $r.Params.prizeName | default "A Designer Handbag" }} &middot;
+       Queensland Category 4 promotional game. No licence required under the
+       <em>Charitable and Non-Profit Gaming Act 1999</em> (Qld).</p>
+  </div>
+</section>
+
+<section class="terms">
+  <div class="container">
+    <ol>
+      <li>
+        <h3>The promoter</h3>
+        <p>{{ $r.Params.promoterEntity | default "Palette Co" }}{{ with $r.Params.promoterAddress }}, {{ . }}{{ end }}
+        (the <strong>Promoter</strong>). Enquiries: <a href="mailto:{{ .Site.Params.contactEmail }}">{{ .Site.Params.contactEmail }}</a>
+        or <a href="tel:{{ .Site.Params.contactPhoneHref }}">{{ .Site.Params.contactPhone }}</a>.</p>
+      </li>
+
+      <li>
+        <h3>Who can enter</h3>
+        <ul>
+          <li>Entry is open to Queensland residents aged 18 years and over.</li>
+          <li>No purchase is necessary &mdash; see clause 4 for both ways to enter.</li>
+          <li>Directors, employees and immediate family members of the Promoter are not eligible.</li>
+          <li>One ticket per person per visit. The Promoter may remove duplicate or fraudulent entries.</li>
+        </ul>
+      </li>
+
+      <li>
+        <h3>Promotion period</h3>
+        <p>Entries open {{ $r.Params.opensOn | default "on the advertised opening date" }} and close
+        <strong>{{ $r.Params.closesOn | default "on the advertised closing date" }}</strong>.
+        Entries received after the closing time will not be included in the draw.</p>
+      </li>
+
+      <li>
+        <h3>How to enter</h3>
+        <p>There are two ways to receive a ticket, and both are free of any entry fee:</p>
+        <ul>
+          <li><strong>Spend {{ $r.Params.minimumSpend | default "$100" }} or more (inc. GST) on services in a single
+          visit</strong> during the promotion period, and we will offer you a ticket at the desk at the time of payment.</li>
+          <li><strong>Simply ask at the desk.</strong> No purchase is necessary. Anyone may request a ticket during
+          opening hours and one will be issued free of charge, whether or not they book, buy or spend anything.</li>
+        </ul>
+        <p style="margin-top:8px;">All services are sold at their normal advertised price. No separate or additional fee
+        is charged for a ticket, and the price of a service is not increased because a ticket is issued with it.</p>
+        <p style="margin-top:8px;">Tickets obtained by either route are identical and carry exactly the same chance of
+        winning. One ticket per person per visit, regardless of the amount spent. Gift voucher purchases, retail-only
+        purchases and unredeemed services do not trigger the automatic offer at the desk, but you may still ask for a
+        ticket. Tickets are issued in person at {{ $r.Params.promoterAddress | default "our Milton salon" }} during
+        opening hours and are recorded with your first name, ticket number and the date issued.</p>
+      </li>
+
+      <li>
+        <h3>The prize</h3>
+        <p>{{ $r.Params.prizeDescription | default "One (1) designer handbag." }}
+        Total retail value: <strong>{{ $r.Params.prizeValue | default "as advertised in salon" }}</strong> (inc. GST).</p>
+        <ul>
+          <li>There is one prize and one winner.</li>
+          <li>The prize is not transferable and cannot be exchanged for cash or credit.</li>
+          <li>If the prize becomes unavailable for reasons outside the Promoter's control, the Promoter may substitute a prize of equal or greater retail value.</li>
+        </ul>
+      </li>
+
+      <li>
+        <h3>The draw</h3>
+        <p>The winner will be drawn at random from all valid entries
+        {{ with $r.Params.drawnOn }}on <strong>{{ . }}</strong>{{ end }}
+        {{ with $r.Params.drawLocation }}at {{ . }}{{ end }}.
+        The draw is conducted on the <a href="{{ $r.RelPermalink }}">giveaway page</a>, in public view, from the full
+        list of tickets shown there. Selection uses the browser's cryptographic random number generator, so every
+        entrant has a fair and equal chance of winning regardless of when they entered. The Promoter's decision is
+        final and no correspondence will be entered into.</p>
+      </li>
+
+      <li>
+        <h3>How the winner is notified and published</h3>
+        <ul>
+          <li>The winner will be contacted directly within two (2) business days of the draw, using the phone number or email they provided when entering.</li>
+          <li>The winner's first name and ticket number will be published on the giveaway page, displayed in salon, and posted to {{ .Site.Params.instagramHandle }} within seven (7) days of the draw.</li>
+          <li>The prize will be awarded within one (1) month of the draw, unless a longer period is agreed in writing.</li>
+          <li>If the winner cannot be contacted within thirty (30) days, the Promoter may conduct a redraw, subject to any applicable requirements.</li>
+        </ul>
+      </li>
+
+      <li>
+        <h3>Your information</h3>
+        <ul>
+          <li>To enter we collect your first name and the date of entry. These are published on the giveaway page so entrants can confirm their ticket.</li>
+          <li>We separately record a contact phone number or email so we can reach the winner. <strong>Contact details are never published.</strong></li>
+          <li>Your details are used only to run this promotion and are not sold or passed to third parties for marketing.</li>
+          <li>Records of this promotion are retained for five (5) years as required by Queensland gaming legislation, then destroyed.</li>
+          <li>To have your entry removed, contact us at <a href="mailto:{{ .Site.Params.contactEmail }}">{{ .Site.Params.contactEmail }}</a>.</li>
+        </ul>
+      </li>
+
+      <li>
+        <h3>General</h3>
+        <ul>
+          <li>By entering, you accept these terms and consent to publication of your first name and ticket number as described above.</li>
+          <li>The Promoter is not responsible for entries that are lost, delayed or incorrectly recorded, or for technical faults affecting the giveaway page.</li>
+          <li>The Promoter may amend these terms or cancel the promotion where required by law or circumstances outside its control. Any change will be published on this page.</li>
+          <li>This promotion is governed by the laws of Queensland, Australia.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <p class="fine">
+      This is a Category 4 promotional game under the
+      <a href="https://www.legislation.qld.gov.au/view/html/inforce/current/act-1999-026" target="_blank" rel="noopener"><em>Charitable and Non-Profit Gaming Act 1999</em> (Qld)</a>
+      and does not require a gaming licence. It is also subject to the Australian Consumer Law.
+      Full details of Queensland's requirements are published by
+      <a href="https://www.business.qld.gov.au/industries/hospitality-tourism-sport/liquor-gaming/gaming/not-profit-charitable/competitions-raffles-bingo" target="_blank" rel="noopener">Business Queensland</a>.
+    </p>
+
+    <a href="{{ $r.RelPermalink }}" class="back">&larr; Back to the giveaway</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <span class="footer-brand">
+        <img src="/img/palette-co-mark.svg" alt="" aria-hidden="true">
+        <span class="brand-text">Palette Co<span class="brand-tagline">Brows Lashes &amp; Beauty</span></span>
+      </span>
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="{{ $r.RelPermalink }}">The giveaway</a>
+        <a href="{{ .Site.Params.instagramURL }}" target="_blank" rel="noopener">{{ .Site.Params.instagramHandle }}</a>
+        <a href="tel:{{ .Site.Params.contactPhoneHref }}">{{ .Site.Params.contactPhone }}</a>
+      </div>
+      <p class="footer-copy">&copy; 2026 Palette Co. {{ $r.Params.promoterAddress }}</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
