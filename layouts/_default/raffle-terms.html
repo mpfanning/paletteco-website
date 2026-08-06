@@ -58,9 +58,14 @@
     .nav-logo img { height:34px; width:auto; display:block; }
     .brand-text { display:flex; flex-direction:column; line-height:1.15; }
     .brand-tagline { font-family:var(--font-body); font-size:.55rem; font-weight:400; letter-spacing:2.5px; text-transform:uppercase; color:var(--teal); margin-top:2px; }
-    .nav-actions { display:flex; gap:22px; align-items:center; }
-    .nav-actions a { font-size:.8rem; text-transform:uppercase; letter-spacing:1.5px; transition:color .3s; }
+    .nav-actions { display:flex; gap:22px; align-items:center; flex-shrink:0; }
+    .nav-actions a { font-size:.8rem; text-transform:uppercase; letter-spacing:1.5px; transition:color .3s; white-space:nowrap; }
     .nav-actions a:hover { color:var(--terracotta); }
+    .nav-cta {
+      background:var(--terracotta); color:var(--white);
+      padding:8px 18px; border-radius:50px; font-weight:700;
+    }
+    .nav-cta:hover { background:var(--terracotta-dark); color:var(--white); }
 
     .head { background:var(--cream); padding:56px 0 48px; }
     .head .eyebrow { font-size:.72rem; text-transform:uppercase; letter-spacing:3px; color:var(--teal); font-weight:700; margin-bottom:14px; }
@@ -102,10 +107,22 @@
     .footer-links a:hover { opacity:1; }
     .footer-copy { font-size:.78rem; opacity:.5; width:100%; text-align:center; margin-top:20px; padding-top:20px; border-top:1px solid rgba(251,243,228,.1); }
 
+    @media (max-width:820px) {
+      .nav-actions { gap:16px; }
+      .nav-inpage { display:none; }
+    }
     @media (max-width:640px) {
-      .nav-logo { font-size:1.15rem; }
-      .nav-actions { gap:14px; }
-      .nav-actions a { font-size:.68rem; letter-spacing:1px; }
+      nav .container { gap:10px; padding:0 16px; }
+      .nav-logo { font-size:1.05rem; gap:7px; min-width:0; }
+      .nav-logo img { height:28px; }
+      .brand-tagline { display:none; }
+      .nav-actions { gap:12px; }
+      .nav-actions a { font-size:.7rem; letter-spacing:1px; }
+      .nav-cta { padding:7px 14px; }
+    }
+    @media (max-width:380px) {
+      .nav-logo .brand-text { display:none; }
+      .nav-actions a { font-size:.66rem; }
     }
     @media (prefers-reduced-motion:reduce) { * { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
   </style>
@@ -120,8 +137,8 @@
     </a>
     <div class="nav-actions">
       <a href="/">Home</a>
-      <a href="{{ $r.RelPermalink }}">The giveaway</a>
-      <a href="{{ .Site.Params.bookingURL }}" target="_blank" rel="noopener">Book</a>
+      <a href="{{ $r.RelPermalink }}" class="nav-inpage">The giveaway</a>
+      <a href="{{ .Site.Params.bookingURL }}" target="_blank" rel="noopener" class="nav-cta">Book</a>
     </div>
   </div>
 </nav>
