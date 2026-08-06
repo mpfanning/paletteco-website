@@ -289,25 +289,13 @@
     body.presenting .reel-name { font-size:clamp(2.4rem,9vw,6.5rem); }
 
     /* ===== Terms link card ===== */
-    .terms-link { background:var(--white); padding:72px 0 80px; }
+    .terms-link { background:var(--white); padding:64px 0 72px; }
     .terms-card {
-      background:var(--cream); border-radius:20px; padding:40px;
+      background:var(--cream); border-radius:20px; padding:36px;
       text-align:center;
     }
-    .terms-card h2 { font-size:clamp(1.6rem,3.4vw,2.1rem); margin-bottom:10px; }
-    .terms-card .lede { font-size:.92rem; opacity:.65; max-width:520px; margin:0 auto 26px; }
-    .terms-summary {
-      list-style:none; display:inline-block; text-align:left;
-      margin:0 auto 30px; max-width:520px;
-    }
-    .terms-summary li {
-      position:relative; padding-left:24px; margin-bottom:9px;
-      font-size:.93rem; opacity:.85;
-    }
-    .terms-summary li::before {
-      content:''; position:absolute; left:2px; top:.62em;
-      width:7px; height:7px; border-radius:50%; background:var(--terracotta);
-    }
+    .terms-card h2 { font-size:clamp(1.5rem,3vw,1.9rem); margin-bottom:10px; }
+    .terms-card .lede { font-size:.92rem; opacity:.65; max-width:480px; margin:0 auto 24px; }
 
     /* ===== Footer ===== */
     footer { background:var(--charcoal); color:var(--cream); padding:44px 0; }
@@ -532,20 +520,10 @@
 <section class="terms-link" id="terms">
   <div class="container narrow">
     <div class="terms-card">
-      <p class="eyebrow">Before you enter</p>
       <h2>Terms &amp; Conditions</h2>
-      <p class="lede">Queensland Category 4 promotional game. No licence required under the
-      <em>Charitable and Non-Profit Gaming Act 1999</em> (Qld).</p>
-
-      <ul class="terms-summary">
-        <li>Open to Queensland residents aged 18+</li>
-        <li>No purchase necessary &mdash; two ways to enter</li>
-        <li>Entries close {{ .Params.closesOn | default "on the advertised closing date" }}</li>
-        <li>Drawn at random{{ with .Params.drawnOn }} on {{ . }}{{ end }}</li>
-        <li>Prize valued at {{ .Params.prizeValue | default "as advertised in salon" }}, not exchangeable for cash</li>
-      </ul>
-
-      <a href="/raffle-terms/" class="btn btn-secondary">Read the full terms</a>
+      <p class="lede">Eligibility, entry, the prize, the draw and how we handle your details
+      &mdash; all set out in full.</p>
+      <a href="/raffle-terms/" class="btn btn-secondary">Read the terms</a>
     </div>
   </div>
 </section>

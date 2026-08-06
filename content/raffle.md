@@ -1,5 +1,5 @@
 ---
-title: "WIN A LOEWE MEDIUM ANAGRAM BASKET BAG"
+title: "WIN A LOEWE BAG"
 description: "THE GIVEAWAY YOU'VE BEEN WAITING FOR"
 layout: "raffle"
 sitemap:
@@ -39,7 +39,7 @@ params:
   # ══════════════════════════════════════════════════════════════════
   #  2. THE PRIZE
   # ══════════════════════════════════════════════════════════════════
-  prizeName: "WIN A LOEWE MEDIUM ANAGRAM BASKET BAG"
+  prizeName: "WIN A LOEWE BAG"
   prizeBlurb: "One lucky Palette Co client is taking it home."
   # Must match the actual prize. Under the Australian Consumer Law a prize
   # description can't misrepresent what's being given away, so name the
