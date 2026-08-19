@@ -376,6 +376,120 @@
       transform: translateY(-2px);
     }
 
+    /* ===== Giveaway ===== */
+    .btn-win {
+      background: linear-gradient(135deg, #E9C87E 0%, var(--gold) 45%, #BE8B2A 100%);
+      color: var(--charcoal);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 6px 22px rgba(213, 168, 78, 0.38);
+    }
+
+    .btn-win::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -60%;
+      width: 45%;
+      height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,0.55), transparent);
+      transform: skewX(-20deg);
+      animation: winShine 5s ease-in-out infinite;
+    }
+
+    @keyframes winShine {
+      0%, 72% { left: -60%; }
+      100%    { left: 130%; }
+    }
+
+    .btn-win:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(213, 168, 78, 0.55);
+    }
+
+    .giveaway {
+      background: var(--charcoal);
+      color: var(--cream);
+      padding: 80px 0;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .giveaway::before {
+      content: '';
+      position: absolute;
+      top: -45%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 940px;
+      height: 940px;
+      background: radial-gradient(circle, rgba(213,168,78,0.20) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .giveaway .container { position: relative; z-index: 2; }
+
+    .giveaway-tag {
+      display: inline-block;
+      background: rgba(213, 168, 78, 0.14);
+      border: 1px solid rgba(213, 168, 78, 0.42);
+      color: var(--gold);
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      padding: 7px 20px;
+      border-radius: 50px;
+      margin-bottom: 22px;
+    }
+
+    .giveaway h2 {
+      font-size: clamp(1.7rem, 4.6vw, 3rem);
+      color: var(--cream);
+      line-height: 1.15;
+      margin-bottom: 14px;
+      max-width: 780px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .giveaway-value {
+      font-family: var(--font-heading);
+      font-style: italic;
+      font-size: 1.3rem;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+
+    .giveaway-lede {
+      opacity: 0.72;
+      max-width: 540px;
+      margin: 0 auto 32px;
+      font-size: 0.98rem;
+    }
+
+    .giveaway-meta {
+      display: flex;
+      gap: 14px 32px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 34px;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      opacity: 0.5;
+    }
+
+    @media (max-width: 700px) {
+      .giveaway { padding: 56px 0; }
+      .giveaway-meta { flex-direction: column; gap: 8px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .btn-win::after { animation: none; }
+    }
+
     /* ===== Section Shared ===== */
     .section {
       padding: 100px 0;
@@ -1031,6 +1145,7 @@
         <li><a href="#services" onclick="document.querySelector('.nav-links').classList.remove('active')">Services</a></li>
         <li><a href="#reviews" onclick="document.querySelector('.nav-links').classList.remove('active')">Reviews</a></li>
         <li><a href="#location" onclick="document.querySelector('.nav-links').classList.remove('active')">Visit</a></li>
+        <li><a href="#giveaway" onclick="document.querySelector('.nav-links').classList.remove('active')">Giveaway</a></li>
         <li><a href="{{ .Site.Params.bookingURL }}" target="_blank" rel="noopener">Book Now</a></li>
       </ul>
     </div>
@@ -1043,11 +1158,50 @@
       <h1 class="visually-hidden">Palette Co</h1>
       <p class="hero-subtitle">Where beauty meets artistry</p>
       <div class="hero-buttons">
+        {{ with .Site.GetPage "/raffle" }}
+          {{ if not (or .Params.winnerTicket .Params.winnerName) }}
+        <a href="{{ .RelPermalink }}" class="btn btn-win">Win a LOEWE Bag</a>
+          {{ end }}
+        {{ end }}
         <a href="{{ .Site.Params.bookingURL }}" target="_blank" rel="noopener" class="btn btn-primary">Book Now</a>
         <a href="{{ .Site.Params.instagramURL }}" target="_blank" rel="noopener" class="btn btn-secondary">Follow Us</a>
       </div>
     </div>
   </section>
+
+  <!-- Giveaway -->
+  {{ with .Site.GetPage "/raffle" }}
+  <section class="giveaway" id="giveaway">
+    <div class="container">
+      {{ if or .Params.winnerTicket .Params.winnerName }}
+
+        {{/* After the draw this replaces the promo automatically. */}}
+        <span class="giveaway-tag">Giveaway drawn</span>
+        <h2>Congratulations{{ with .Params.winnerName }}, {{ . }}{{ end }}!</h2>
+        {{ with .Params.winnerTicket }}<p class="giveaway-value">Ticket #{{ . }}</p>{{ end }}
+        <p class="giveaway-lede">Thank you to everyone who entered. Keep an eye out &mdash; we'll be doing this again.</p>
+        <a href="{{ .RelPermalink }}" class="btn btn-secondary" style="border-color: var(--cream); color: var(--cream);">See the result</a>
+
+      {{ else }}
+
+        <span class="giveaway-tag">Our biggest giveaway yet</span>
+        <h2>{{ .Params.prizeName | default "Win a designer handbag" }}</h2>
+        {{ with .Params.prizeValue }}<p class="giveaway-value">Valued at {{ . }}</p>{{ end }}
+        <p class="giveaway-lede">
+          Spend {{ .Params.minimumSpend | default "$100" }} or more in salon and we'll add your name to the draw.
+          Every ticket is published, so you can check you're in.
+        </p>
+        <a href="{{ .RelPermalink }}" class="btn btn-win">See the giveaway</a>
+        <div class="giveaway-meta">
+          {{ with .Params.closesOn }}<span>Entries close {{ . }}</span>{{ end }}
+          {{ with .Params.drawnOn }}<span>Drawn live {{ . }}</span>{{ end }}
+          <span>No purchase necessary</span>
+        </div>
+
+      {{ end }}
+    </div>
+  </section>
+  {{ end }}
 
   <!-- About -->
   <section class="section about" id="about">
