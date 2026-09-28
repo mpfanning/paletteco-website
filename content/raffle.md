@@ -28,7 +28,7 @@ params:
   #      the password somewhere safe, it can't be recovered from the hash.
   #      To change it again, see RAFFLE-SETUP.md Part 4.
   # ══════════════════════════════════════════════════════════════════
-  staffPasswordHash: "2afc56b26c263c4ea0d484ae6b96245d6f09dbd3ed8e8188e1f6d184b0bb27b9"
+  staffPasswordHash: "98699e294c2bf2bee7742f6d09ce8a89b0b4264371cc8954bf1b1c5309bb2e68"
 
   # AFTER the draw, put the winner here and redeploy. The page then shows
   # the result permanently to everyone, not just the salon device.
