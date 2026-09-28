@@ -33,8 +33,8 @@ params:
   # AFTER the draw, put the winner here and redeploy. The page then shows
   # the result permanently to everyone, not just the salon device.
   # Leave both blank until then.
-  winnerTicket: ""
-  winnerName: ""
+  winnerTicket: "67"
+  winnerName: "Shannon Velleley"
 
   # ══════════════════════════════════════════════════════════════════
   #  2. THE PRIZE
